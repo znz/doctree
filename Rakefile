@@ -1,3 +1,6 @@
+DB_PARENT_DIR = ENV.fetch('DB_PARENT_DIR', '/tmp')
+OUTPUT_PARENT_DIR = ENV.fetch('OUTPUT_PARENT_DIR', '/tmp/html')
+QUIET = ENV.fetch('QUIET', false)
 
 OLD_VERSIONS = %w[1.8.7 1.9.3 2.0.0 2.1.0 2.2.0]
 SUPPORTED_VERSIONS = %w[2.3.0 2.4.0 2.5.0]
@@ -6,7 +9,7 @@ ALL_VERSIONS = [*OLD_VERSIONS, *SUPPORTED_VERSIONS, *UNRELEASED_VERSIONS]
 
 def generate_database(version)
   puts "generate database of #{version}"
-  db = "/tmp/db-#{version}"
+  db = "#{DB_PARENT_DIR}/db-#{version}"
   succeeded = system("bundle", "exec",
                      "bitclust", "--database=#{db}",
                      "init", "version=#{version}", "encoding=UTF-8")
@@ -21,10 +24,10 @@ def generate_database(version)
 end
 
 def generate_statichtml(version)
-  db = "/tmp/db-#{version}"
+  db = "#{DB_PARENT_DIR}/db-#{version}"
   generate_database(version) unless File.exist?(db)
   puts "generate static html of #{version}"
-  outputdir = "/tmp/html/#{version}"
+  outputdir = "#{OUTPUT_PARENT_DIR}/#{version}"
   bitclust_gem_path = File.expand_path('../..', `bundle exec gem which bitclust`)
   raise "bitclust gem not found" unless $?.success?
   succeeded = system("bundle", "exec",
@@ -33,10 +36,11 @@ def generate_statichtml(version)
                      "--templatedir=#{bitclust_gem_path}/data/bitclust/template.offline",
                      "--catalog=#{bitclust_gem_path}/data/bitclust/catalog",
                      "--fs-casesensitive",
+	             (QUIET ? "--quiet" : "--no-quiet"),
                      "--canonical-base-url=http://localhost:9292/latest/")
   raise "Failed to generate static html" unless succeeded
-  File.unlink("/tmp/html/latest") rescue nil
-  File.symlink(version, "/tmp/html/latest")
+  File.unlink("#{OUTPUT_PARENT_DIR}/latest") rescue nil
+  File.symlink(version, "#{OUTPUT_PARENT_DIR}/latest")
 end
 
 task :default => [:generate, :check_prev_commit_format]
