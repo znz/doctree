@@ -36,8 +36,7 @@ def generate_statichtml(version)
                      "--templatedir=#{bitclust_gem_path}/data/bitclust/template.offline",
                      "--catalog=#{bitclust_gem_path}/data/bitclust/catalog",
                      "--fs-casesensitive",
-	             (QUIET ? "--quiet" : "--no-quiet"),
-                     "--canonical-base-url=http://localhost:9292/latest/")
+                     (QUIET ? "--quiet" : "--no-quiet"))
   raise "Failed to generate static html" unless succeeded
   File.unlink("#{OUTPUT_PARENT_DIR}/latest") rescue nil
   File.symlink(version, "#{OUTPUT_PARENT_DIR}/latest")
