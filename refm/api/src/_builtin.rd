@@ -65,7 +65,7 @@ require を書かなくても使うことができます。
 #@include(_builtin/Integer)
 #@include(_builtin/Interrupt)
 #@include(_builtin/Kernel)
-#@include(_builtin/KeyError)
+#@#include(_builtin/KeyError)
 #@include(_builtin/LoadError)
 #@include(_builtin/LocalJumpError)
 #@include(_builtin/Marshal)

@@ -1,3 +1,6 @@
+---
+append_to: _builtin
+---
 # class KeyError < IndexError
 
 [[m:Hash#fetch]] などで key に対応する value がない場合に発生します。
@@ -5,13 +8,13 @@
 Ruby 1.8 以前では同様の場面で [[c:IndexError]] が発生していました。
 互換性のため、[[c:KeyError]] は [[c:IndexError]] のサブクラスになっています。
 
-#@since 2.6.0
+{% if version >= '2.6.0' %}
 ## Class Methods
 
---- new(error_message = "")                   -> KeyError
---- new(error_message = "", receiver:)        -> KeyError
---- new(error_message = "", key:)             -> KeyError
---- new(error_message = "", receiver:, key:)  -> KeyError
+### def new(error_message = "")                   -> KeyError
+### def new(error_message = "", receiver:)        -> KeyError
+### def new(error_message = "", key:)             -> KeyError
+### def new(error_message = "", receiver:, key:)  -> KeyError
 
 例外オブジェクトを生成して返します。
 
@@ -20,18 +23,18 @@ Ruby 1.8 以前では同様の場面で [[c:IndexError]] が発生していま�
 @param receiver 原因となったメソッド呼び出しのレシーバ
 @param key      原因となったメソッド呼び出しのキー
 
-#@samplecode 例
+```ruby 例
 h = {foo: 1}
 err = KeyError.new("Message", receiver: h, key: :bar)
 p err.message  # => "Message"
 p err.receiver # => {:foo=>1}
 p err.key      # => :bar
-#@end
-#@end
-#@since 2.5.0
-== Instance Methods
+```
+{% endif %}
+{% if version >= '2.5.0' %}
+## Instance Methods
 
---- receiver -> object
+### def receiver -> object
 
 KeyError の原因となったメソッド呼び出しのレシーバを返します。
 
@@ -47,7 +50,7 @@ KeyError の原因となったメソッド呼び出しのレシーバを返し�
     p h.equal?(e.receiver)  # => true
   end
 
---- key -> object
+### def key -> object
 
 KeyError の原因となったメソッド呼び出しのキーを返します。
 
@@ -62,4 +65,4 @@ KeyError の原因となったメソッド呼び出しのキーを返します�
     p e.message            # => "key not found: \"gumbygumbygumbygumbygumbygumbygumbygumbygumbygumbygumbygumbyg..."
     p 'gumby'*20 == e.key  # => true
   end
-#@end
+{% endif %}
