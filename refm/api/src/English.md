@@ -14,7 +14,7 @@ p $RS #=> "\n"
 
 ### $ERROR_INFO -> Exception  | nil
 
-[[m:$!]] の別名
+[m:$!] の別名
 
 ```ruby
 require "English"
@@ -30,82 +30,93 @@ end
 
 ### $ERROR_POSITION -> [String] | nil
 
-[[m:$@]] の別名
+[m:$@] の別名
 
-  require "English"
-  class SomethingError < StandardError; end
+```ruby
+require "English"
+class SomethingError < StandardError; end
 
-  begin
-    raise SomethingError
-  rescue
-    p $ERROR_POSITION #=> ["sample.rb:5"]
-  end
+begin
+  raise SomethingError
+rescue
+  p $ERROR_POSITION #=> ["sample.rb:5"]
+end
+```
 
 ### $FS              -> String | nil
 ### $FIELD_SEPARATOR -> String | nil
 
-[[m:$;]] の別名
+[m:$;] の別名
 
-  require "English"
+```ruby
+require "English"
 
-  str = "hoge,fuga,ugo,bar,foo"
-  p str.split #=> ["hoge,fuga,ugo,bar,foo"]
-  $FIELD_SEPARATOR = ","
-  p str.split #=> ["hoge", "fuga", "ugo", "bar", "foo"]
+str = "hoge,fuga,ugo,bar,foo"
+p str.split #=> ["hoge,fuga,ugo,bar,foo"]
+$FIELD_SEPARATOR = ","
+p str.split #=> ["hoge", "fuga", "ugo", "bar", "foo"]
+```
 
 ### $OFS                    -> String | nil
 ### $OUTPUT_FIELD_SEPARATOR -> String | nil
 
-[[m:$,]] の別名
+[m:$,] の別名
 
-  require "English"
+```ruby
+require "English"
 
-  array = %w|hoge fuga ugo bar foo|
-  p array.join #=> "hogefugaugobarfoo"
-  $OUTPUT_FIELD_SEPARATOR = ","
-  p array.join #=> "hoge,fuga,ugo,bar,foo"
+array = %w|hoge fuga ugo bar foo|
+p array.join #=> "hogefugaugobarfoo"
+$OUTPUT_FIELD_SEPARATOR = ","
+p array.join #=> "hoge,fuga,ugo,bar,foo"
+```
 
 ### $RS                     -> String | nil
 ### $INPUT_RECORD_SEPARATOR -> String | nil
 
-[[m:$/]] の別名
+[m:$/] の別名
 
-  require "English"
+```ruby
+require "English"
 
-  $INPUT_RECORD_SEPARATOR = '|'
-  array = []
-  while line = DATA.gets
-    array << line
-  end
-  p array #=> ["ugo|", "ego|", "fogo\n"]
+$INPUT_RECORD_SEPARATOR = '|'
+array = []
+while line = DATA.gets
+  array << line
+end
+p array #=> ["ugo|", "ego|", "fogo\n"]
 
-  __END__
-  ugo|ego|fogo
-
+__END__
+ugo|ego|fogo
+```
 
 ### $ORS                     -> String | nil
 ### $OUTPUT_RECORD_SEPARATOR -> String | nil
 
-[[m:$\]] の別名
+[m:$\] の別名
 
-  require "English"
+```ruby
+require "English"
 
-  print "hoge\nhuga\n"
-  $OUTPUT_RECORD_SEPARATOR = "\n"
-  print "fuge"
-  print "ugo"
-  # end of sample.rb
+print "hoge\nhuga\n"
+$OUTPUT_RECORD_SEPARATOR = "\n"
+print "fuge"
+print "ugo"
+# end of sample.rb
+```
 
-  ruby sample.rb
-  hoge
-  huga
-  fuge
-  ugo
+```console
+$ ruby sample.rb
+hoge
+huga
+fuge
+ugo
+```
 
 ### $INPUT_LINE_NUMBER -> Integer
 ### $NR                -> Integer
 
-[[m:$.]] の別名
+[m:$.] の別名
 
   1 e
   2 f
@@ -162,15 +173,17 @@ end
 
 [[m:$<]] の別名
 
-  require "English"
-  while line = $DEFAULT_INPUT.gets
-    p line
-  end
-  # end of sample.rb
+```ruby
+require "English"
+while line = $DEFAULT_INPUT.gets
+  p line
+end
+# end of sample.rb
 
-  ruby sample.rb < /etc/passwd
-  # => "hoge:x:500:501::/home/hoge:/bin/bash\n"
-       ...
+ruby sample.rb < /etc/passwd
+# => "hoge:x:500:501::/home/hoge:/bin/bash\n"
+#     ...
+```
 
 ### $PID        -> Integer
 ### $PROCESS_ID -> Integer
@@ -183,21 +196,22 @@ end
 
 ### $CHILD_STATUS -> Process::Status | nil
 
-[[m:$?]] の別名
+[m:$?] の別名
 
-  require "English"
+```ruby
+require "English"
 
-  out = `wget https://www.ruby-lang.org/en/about/license.txt -O - 2>/dev/null`
+out = `wget https://www.ruby-lang.org/en/about/license.txt -O - 2>/dev/null`
 
-  if $CHILD_STATUS.to_i == 0
-    print "wget success\n"
-    out.split(/\n/).each { |line|
-      printf "%s\n", line
-    }
-  else
-    print "wget failed\n"
-  end
-
+if $CHILD_STATUS.to_i == 0
+  print "wget success\n"
+  out.split(/\n/).each { |line|
+    printf "%s\n", line
+  }
+else
+  print "wget failed\n"
+end
+```
 
 ### $LAST_MATCH_INFO -> MatchData | nil
 
